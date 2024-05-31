@@ -1,20 +1,48 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'src/app.dart';
-import 'src/settings/settings_controller.dart';
-import 'src/settings/settings_service.dart';
+import 'package:get/get.dart';
+import 'package:surgakicare/screens/home.dart';
+import 'package:surgakicare/screens/home_page.dart';
+import 'package:surgakicare/screens/login.dart';
+import 'package:surgakicare/screens/register.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
-  // Set up the SettingsController, which will glue user settings to multiple
-  // Flutter Widgets.
-  final settingsController = SettingsController(SettingsService());
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // Load the user's preferred theme while the splash screen is displayed.
-  // This prevents a sudden theme change when the app is first displayed.
-  await settingsController.loadSettings();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
-  runApp(MyApp(settingsController: settingsController));
+  runApp(GetMaterialApp(home: SurgakiCareApp()));
+}
+
+class SurgakiCareApp extends StatelessWidget {
+  const SurgakiCareApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ELearning English',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        useMaterial3: true,
+      ),
+      home: StartScreen(),
+    );
+    ;
+  }
+}
+
+class StartScreen extends StatelessWidget {
+  const StartScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    final bool isLoggedIn = currentUser != null;
+
+    return isLoggedIn ? HomeScreen() : LoginPage();
+  }
 }
