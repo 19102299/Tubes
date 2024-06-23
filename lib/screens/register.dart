@@ -48,6 +48,9 @@ class RegisterPage extends StatelessWidget {
         'nama': userCredential.user!.displayName!,
         'email': userCredential.user!.email!,
         'terdaftar': getCurrentDate(),
+        'wishlists': [],
+        'carts': [],
+        'isAdmin': false,
       });
     }
 
@@ -96,6 +99,9 @@ class RegisterPage extends StatelessWidget {
           'nama': namaController.text.trim(),
           'email': emailController.text.trim(),
           'terdaftar': getCurrentDate(),
+          'wishlists': [],
+          'carts': [],
+          'isAdmin': false,
         });
 
         print("Data successfully written to Firestore!");

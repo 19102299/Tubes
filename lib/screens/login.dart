@@ -65,6 +65,9 @@ class LoginPage extends StatelessWidget {
         'nama': userCredential.user!.displayName!,
         'email': userCredential.user!.email!,
         'terdaftar': getCurrentDate(),
+        'wishlists': [],
+        'carts': [],
+        'isAdmin': false,
       });
     }
     Get.off(() => HomeScreen());

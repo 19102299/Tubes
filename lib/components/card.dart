@@ -12,6 +12,8 @@ class ProductCard extends StatelessWidget {
   final int ratingCount;
   final bool isPromo;
   final bool isSaved;
+  final String id;
+  final VoidCallback onClickSaved;
 
   ProductCard({
     required this.imageUrl,
@@ -20,95 +22,102 @@ class ProductCard extends StatelessWidget {
     required this.discountPrice,
     required this.rating,
     required this.ratingCount,
+    required this.onClickSaved,
     this.isSaved = false,
     this.isPromo = false,
+    this.id = "",
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(() => DetailProductPage());
-      },
-      child: Container(
-        width: 150,
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.blue[100],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network(imageUrl, height: 100),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Flexible(
-                  child: Text(
-                    title,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.start,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          Get.to(() => DetailProductPage(id));
+        },
+        child: Container(
+          width: 200,
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.blue[100],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(imageUrl, height: 100),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Flexible(
+                    child: Text(
+                      title,
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline),
-                )
-              ],
-            ),
-            SizedBox(height: 5),
-            () {
-              if (isPromo) {
-                return Column(children: [
-                  Row(
+                  IconButton(
+                    onPressed: onClickSaved,
+                    icon:
+                        Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline),
+                  )
+                ],
+              ),
+              SizedBox(height: 5),
+              () {
+                if (isPromo) {
+                  return Column(children: [
+                    Row(
+                      children: [
+                        Text(
+                          originalPrice,
+                          style: TextStyle(
+                            fontSize: 12,
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.red,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          discountPrice,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  ]);
+                } else {
+                  return Row(
                     children: [
                       Text(
                         originalPrice,
-                        style: TextStyle(
-                          fontSize: 12,
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.red,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        discountPrice,
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.start,
                       ),
                     ],
+                  );
+                }
+              }(),
+              Row(
+                children: [
+                  Icon(Icons.star, color: Colors.yellow, size: 14),
+                  Text(
+                    '$rating ($ratingCount)',
+                    style: TextStyle(fontSize: 12),
                   ),
-                ]);
-              } else {
-                return Row(
-                  children: [
-                    Text(
-                      originalPrice,
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                );
-              }
-            }(),
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.yellow, size: 14),
-                Text(
-                  '$rating ($ratingCount)',
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

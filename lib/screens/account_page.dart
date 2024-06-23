@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:surgakicare/controllers/account_controller.dart';
 import 'package:surgakicare/main.dart';
 import 'package:surgakicare/screens/login.dart';
+import 'package:surgakicare/screens/myorders_page.dart';
+import 'package:surgakicare/screens/wishlists_page.dart';
 import 'package:surgakicare/services/auth_service.dart';
 
 class AccountPage extends StatelessWidget {
@@ -63,7 +65,9 @@ class AccountPage extends StatelessWidget {
               ListTile(
                 title: Text('Wishlists'),
                 trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => WishlistPage());
+                },
               ),
               ListTile(
                 title: Text('Detail Akun'),
@@ -73,7 +77,9 @@ class AccountPage extends StatelessWidget {
               ListTile(
                 title: Text('Lihat Pesanan Saya'),
                 trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => MyOrdersPage());
+                },
               ),
               ListTile(
                 title: Text('Logout'),
